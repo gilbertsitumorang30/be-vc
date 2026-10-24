@@ -1,0 +1,12 @@
+services:
+  mysql:
+    image: mysql:8.0.45
+    container_name: mysql_resto_server
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+
+    ports:
+      - "${DB_PORT}:3306"

@@ -1,0 +1,19 @@
+services:
+  mysql:
+    image: mysql:8.0.45
+    container_name: mysql_resto_server_dev
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+
+    ports:
+      - "${DB_PORT}:3306"
+
+    volumes:
+      - mysql_resto_server_dev_data:/var/lib/mysql
+
+volumes:
+  mysql_resto_server_dev_data:
+    name: mysql_resto_server_dev_data
