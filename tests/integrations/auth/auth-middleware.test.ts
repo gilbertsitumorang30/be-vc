@@ -33,7 +33,6 @@ describe("Auth Middleware", () => {
         {
           sub: 1,
           username: "test_user",
-          roleId: 1,
         },
         appConfig.JWT_SECRET,
         {
@@ -77,7 +76,6 @@ describe("Auth Middleware", () => {
         {
           sub: 1,
           username: "test_user",
-          roleId: 1,
         },
         appConfig.JWT_SECRET,
         {
@@ -98,9 +96,9 @@ describe("Auth Middleware", () => {
       const password = "1234567890";
       const user = {
         username: "test_user",
-        name: "Test User",
+        fullName: "Test User",
+        email: "test@example.com",
         password: await hashPassword(password),
-        roleId: 1,
       };
 
       await db.insert(users).values(user);

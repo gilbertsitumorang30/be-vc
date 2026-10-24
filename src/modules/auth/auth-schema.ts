@@ -3,8 +3,8 @@ import { z } from "zod";
 export const registerSchema = z.object({
   username: z.string().min(5).max(50),
   password: z.string().min(8),
-  name: z.string().min(3).max(100),
-  roleId: z.number().int().positive(),
+  fullName: z.string().min(3).max(255),
+  email: z.string().email(),
 });
 
 export const loginSchema = z.object({

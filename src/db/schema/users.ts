@@ -1,21 +1,11 @@
-import {
-  mysqlTable,
-  int,
-  varchar,
-  timestamp,
-  boolean,
-} from "drizzle-orm/mysql-core";
-import { roles } from "./roles.js";
+import { mysqlTable, int, varchar, timestamp } from "drizzle-orm/mysql-core";
 
 export const users = mysqlTable("users", {
   id: int().primaryKey().autoincrement(),
-  name: varchar({ length: 150 }).notNull(),
-  username: varchar({ length: 150 }).notNull().unique(),
-  password: varchar({ length: 150 }).notNull(),
-  roleId: int("role_id")
-    .notNull()
-    .references(() => roles.id),
-  isActive: boolean("is_active").notNull().default(false),
+  fullName: varchar("full_name", { length: 255 }).notNull(),
+  username: varchar({ length: 255 }).notNull().unique(),
+  email: varchar({ length: 255 }).notNull(),
+  password: varchar({ length: 255 }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().onUpdateNow().notNull(),
 });

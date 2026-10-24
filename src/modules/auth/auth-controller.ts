@@ -17,7 +17,7 @@ const login = asyncHandler(async (req: Request, res: Response) => {
 
   const loginResult = await authService.login(data);
 
-  return successResponse(res, "User login successfully", 200, loginResult);
+  return successResponse(res, "Login successful", 200, loginResult);
 });
 
 export const authController = {

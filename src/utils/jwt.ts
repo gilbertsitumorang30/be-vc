@@ -5,7 +5,7 @@ import { ERROR_CODES } from "../errors/error-codes.js";
 
 export type AppJwtPayload = {
   sub: number;
-  roleId: number;
+  username: string;
 };
 
 export const generateToken = (payload: AppJwtPayload) => {
@@ -19,7 +19,7 @@ export const verifyToken = (token: string): AppJwtPayload => {
   if (
     typeof decode === "string" ||
     typeof decode.sub !== "number" ||
-    typeof decode.roleId !== "number"
+    typeof decode.username !== "string"
   ) {
     throw new AppError("Invalid token payload", 401, {
       code: ERROR_CODES.UNAUTHORIZED,
@@ -27,6 +27,6 @@ export const verifyToken = (token: string): AppJwtPayload => {
   }
   return {
     sub: decode.sub,
-    roleId: decode.roleId,
+    username: decode.username,
   };
 };

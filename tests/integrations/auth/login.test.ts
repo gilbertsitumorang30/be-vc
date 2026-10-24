@@ -57,6 +57,7 @@ describe("POST /auth/login", () => {
       expect(response.status).toBe(401);
       expect(response.body.success).toBe(false);
       expect(response.body.code).toBe("INVALID_CREDENTIALS");
+      expect(response.body.message).toBe("email dan password tidak valid");
     });
 
     it("should reject when password is incorrect", async () => {
@@ -64,9 +65,9 @@ describe("POST /auth/login", () => {
 
       await db.insert(users).values({
         username: "test_user",
-        name: "Test User",
+        fullName: "Test User",
+        email: "test@example.com",
         password: await hashPassword(password),
-        roleId: 1,
       });
 
       const response = await request(app).post("/api/auth/login").send({
@@ -77,6 +78,7 @@ describe("POST /auth/login", () => {
       expect(response.status).toBe(401);
       expect(response.body.success).toBe(false);
       expect(response.body.code).toBe("INVALID_CREDENTIALS");
+      expect(response.body.message).toBe("email dan password tidak valid");
     });
   });
 
@@ -86,9 +88,9 @@ describe("POST /auth/login", () => {
 
       await db.insert(users).values({
         username: "test_user",
-        name: "Test User",
+        fullName: "Test User",
+        email: "test@example.com",
         password: await hashPassword(password),
-        roleId: 1,
       });
 
       const response = await request(app).post("/api/auth/login").send({
@@ -97,17 +99,11 @@ describe("POST /auth/login", () => {
       });
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);
+      expect(response.body.message).toBe("Login successful");
 
-      expect(response.body.data).toHaveProperty("token");
-      expect(response.body.data.token).toEqual(expect.any(String));
-
-      expect(response.body.data.user).toMatchObject({
-        username: "test_user",
-        name: "Test User",
-        roleId: 1,
+      expect(response.body.data).toEqual({
+        token: expect.any(String),
       });
-
-      expect(response.body.data.user).not.toHaveProperty("password");
     });
   });
 });

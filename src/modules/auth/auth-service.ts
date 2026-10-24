@@ -14,6 +14,14 @@ const register = async (newUser: RegisterInput) => {
     });
   }
 
+  const emailExists = await userRepository.findByEmail(newUser.email);
+
+  if (emailExists) {
+    throw new AppError("Email already exist", 409, {
+      code: ERROR_CODES.RESOURCE_CONFLICT,
+    });
+  }
+
   const hashedPassword = await hashPassword(newUser.password);
 
   const saveUser = await userRepository.create({
@@ -30,7 +38,7 @@ const login = async (user: LoginInput) => {
   );
 
   if (!userExist) {
-    throw new AppError("Invalid username or Password", 401, {
+    throw new AppError("email dan password tidak valid", 401, {
       code: ERROR_CODES.INVALID_CREDENTIALS,
     });
   }
@@ -41,19 +49,17 @@ const login = async (user: LoginInput) => {
   );
 
   if (!passwordMatch) {
-    throw new AppError("Invalid username or Password", 401, {
+    throw new AppError("email dan password tidak valid", 401, {
       code: ERROR_CODES.INVALID_CREDENTIALS,
     });
   }
 
-  const token = generateToken({ sub: userExist.id, roleId: userExist.roleId });
+  const token = generateToken({
+    sub: userExist.id,
+    username: userExist.username,
+  });
 
-  const userLogin = await userRepository.findByUsername(userExist.username);
-
-  return {
-    user: userLogin,
-    token,
-  };
+  return { token };
 };
 
 export const authService = {

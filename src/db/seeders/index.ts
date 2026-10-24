@@ -6,7 +6,7 @@ import { usersSeed } from "./users-seed.js";
 const seed = async () => {
   try {
     await rolesSeed();
-    // await usersSeed();
+    await usersSeed();
     console.log("Seeding completed");
     process.exit(0);
   } catch (error) {
